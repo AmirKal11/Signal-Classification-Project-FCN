@@ -71,11 +71,18 @@ class H5DataLoader:
         rename_map = {}
         ignore_terms = ['index', 'final'] 
         
+        rename_map = {}
+        ignore_terms = ['index', 'final'] 
+        
+        # FIX: Changed 'BDT' to 'bdt', 'Jvt' to 'jvt', etc. to match Preprocessor expectations
         keywords = {
             'pt': 'pt', 'eta': 'eta', 'phi': 'phi', 'mass': 'm', 
-            'energy': 'e', 'bdt': 'BDT', 'jvt': 'Jvt', 'isol': 'iso', 'iso': 'iso', 
-            'bjet': 'bjet', 'btag': 'BTagScore',
-            'm': 'm', 'e': 'e' # generic keys last
+            'energy': 'e', 
+            'bdt': 'bdt',       # <--- WAS 'BDT', CHANGED TO 'bdt'
+            'jvt': 'jvt',       # <--- WAS 'Jvt', CHANGED TO 'jvt'
+            'isol': 'iso', 'iso': 'iso', 
+            'bjet': 'bjet', 'btag': 'btag_score', # Changed to lowercase just in case
+            'm': 'm', 'e': 'e' 
         }
         
         for col in df.columns:

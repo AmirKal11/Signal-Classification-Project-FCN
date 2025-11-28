@@ -211,6 +211,25 @@ class Logic_PhysicsPreprocessor:
         if missing_cols:
             print(f"WARNING: Missing columns: {missing_cols}")
             for c in missing_cols: self.events[c] = 0.0
+        
+        dead_columns = []
+        for col in self.feature_columns:
+            # Check if the column is entirely zeros (or close enough to zero)
+            # using np.allclose handles float precision issues
+            if np.allclose(self.events[col].values, 0, atol=1e-7):
+                dead_columns.append(col)
+        
+        if dead_columns:
+            # STOP EVERYTHING and throw a loud error
+            raise ValueError(
+                f"\n{'='*60}\n"
+                f"DATA INTEGRITY ERROR: DEAD COLUMNS DETECTED \n"
+                f"{'='*60}\n"
+                f"The following feature columns contain ONLY ZEROS:\n"
+                f" -> {dead_columns}\n\n"
+                f"DIAGNOSIS:\n"
+                f"{'='*60}"
+            )
             
         X = self.events[self.feature_columns]
         
